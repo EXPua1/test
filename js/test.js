@@ -1,35 +1,61 @@
-const clearLogBtn = document.querySelector(".js-clear");
-const logList = document.querySelector(".log-list");
-let keypressCounter = 1;
+const output = document.getElementById("output");
+const numberButtons = document.querySelectorAll(".numbers button");
+const operationButtons = document.querySelectorAll(".operations button");
+const clearButton = document.querySelector(".clear");
 
-console.log(clearLogBtn)
+let firstValue = "";
+let secondValue = "";
+let operator = "";
+let currentDisplay = "0";
 
-document.addEventListener("keydown", logMessage);
-document.addEventListener("keyup", logMessage);
-clearLogBtn.addEventListener("click", reset);
-
-function logMessage({ type, key, code }) {
-  const markup = `<div class="log-item">
-    <span class="chip">${keypressCounter}</span>
-    <ul>
-      <li><b>Event</b>: ${type}</li>
-      <li><b>Key</b>: ${key}</li>
-      <li><b>Code</b>: ${code}</li>
-    </ul>
-  </div>`;
-
-  logList.insertAdjacentHTML("afterbegin", markup);
-
-  if (type === "keyup") {
-    incrementKeypressCounter();
-  }
+// Функция для обновления отображения состояния
+function updateDisplay() {
+  output.textContent = currentDisplay;
 }
 
-function reset() {
-  keypressCounter = 1;
-  logList.innerHTML = "";
-}
+numberButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (!operator) {
+      // если не +-
+      firstValue += button.textContent;
+      currentDisplay = firstValue;
+    } else {
+      // Иначе добавляем ко второму числу
+      secondValue += button.textContent;
+      currentDisplay = `${firstValue}${operator}${secondValue}`;
+    }
+    updateDisplay();
+  });
+});
 
-function incrementKeypressCounter() {
-  keypressCounter += 1;
-}
+operationButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (button.textContent === "+" || button.textContent === "-") {
+      if (!firstValue) return;
+      operator = button.textContent;
+      currentDisplay = `${firstValue}${operator}`;
+    } else if (button.textContent === "=") {
+      if (operator && firstValue && secondValue) {
+        let result;
+        if (operator === "+") {
+          result = parseFloat(firstValue) + parseFloat(secondValue);
+        } else if (operator === "-") {
+          result = parseFloat(firstValue) - parseFloat(secondValue);
+        }
+        currentDisplay = `${firstValue}${operator}${secondValue}=${result}`;
+        firstValue = result.toString();
+        secondValue = "";
+        operator = "";
+      }
+    }
+    updateDisplay();
+  });
+});
+
+clearButton.addEventListener("click", () => {
+  firstValue = "";
+  secondValue = "";
+  operator = "";
+  currentDisplay = "0";
+  updateDisplay();
+});

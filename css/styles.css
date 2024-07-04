@@ -33,25 +33,47 @@ ul {
   font-family: monospace;
 }
 
-.log-item > .chip {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  width: 20px;
-  height: 20px;
-  background-color: green;
-  border-radius: 4px;
-  color: #fff;
-  font-size: 16px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.input {
+  margin-top: 33px;
+  margin-bottom: 15px;
+  height: 35px;
 }
-
 button {
   display: inline-flex;
   padding: 8px 12px;
   cursor: pointer;
   font-family: inherit;
   text-transform: uppercase;
+}
+.numbers {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+.numbers button {
+  flex-basis: calc((100% - (10px * 2)) / 3);
+  justify-content: center;
+}
+
+.operations {
+  margin-top: 33px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+.operations button {
+  justify-content: center;
+  flex-basis: calc((100% - (10px * 2)) / 3);
+}
+.display {
+  border-radius: 0%;
+  margin: 33px auto;
+  width: 90%;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #584040;
 }
